@@ -9,11 +9,25 @@ spring:
         binder:
           brokers: localhost:9092
       bindings:
-        input:
+        productChanged-in:
           group: product
           destination: orders
           contentType: application/json
-        output:
+        productChanged-out:
+          destination: shop
+          contentType: application/json
+        productExcept-in:
+          group: product
+          destination: except
+          contentType: application/json
+        productExcept-out:
+          destination: except
+          contentType: application/json
+        orderCreated-in:
+          group: product
+          destination: shop
+          contentType: application/json
+        orderCreated-out:
           destination: shop
           contentType: application/json
 

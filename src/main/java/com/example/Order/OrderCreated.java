@@ -1,14 +1,17 @@
 package com.example.Order;
 
-public class OrderCreated {
-    String eventType;
-    long id;
+public class OrderCreated extends AbstractEvent{
     long productId;
     String productName;
     int qty;
     int price;
     String customerName;
     String customerAddr;
+
+    @Override
+    public String getEventType() {
+        return eventType;
+    }
 
     public OrderCreated(){
         eventType = this.getClass().getSimpleName();

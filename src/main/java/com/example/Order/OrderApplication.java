@@ -8,12 +8,17 @@ import org.springframework.context.ApplicationContext;
 
 
 @SpringBootApplication
-@EnableBinding(Processor.class)
+//@EnableBinding(Processor.class)
+@EnableBinding(KafkaProcessor.class)
 public class OrderApplication {
 
-	public static ApplicationContext applicationContext;
+	private static ApplicationContext applicationContext;
 	public static void main(String[] args) {
 		applicationContext = SpringApplication.run(OrderApplication.class, args);
+	}
+
+	public static KafkaProcessor getBeanForProcessor(){
+		return OrderApplication.applicationContext.getBean(KafkaProcessor.class);
 	}
 
 }

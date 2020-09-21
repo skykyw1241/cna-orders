@@ -32,25 +32,12 @@ public class Order {
         orderCreated.setPrice(this.price);
         orderCreated.setId(this.id);
 
-        //  해당 클래스를 json으로 변환
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = null;
-
         try{
-            json = objectMapper.writeValueAsString(orderCreated);
-        }catch(JsonProcessingException e){
-            throw new RuntimeException("JSON format exception");
+            orderCreated.publish();
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        System.out.println(json);
-
-        //  메세지 큐에 publish
-        Processor processor = OrderApplication.applicationContext.getBean(Processor.class);
-        MessageChannel outputChannel = processor.output();
-
-        outputChannel.send(MessageBuilder
-                .withPayload(json)
-                .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
-                .build());
+        System.out.println("*********************** sending Order Created ***********************");
     }
 
     public long getId() {

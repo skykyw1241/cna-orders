@@ -1,19 +1,14 @@
 package com.example.Order;
 
 
-public class OutOfStock {
-    String eventType;
-    long id;
+public class ProductExcept extends AbstractEvent{
     long productId;
     long orderId;
 
-    public OutOfStock(){
+    public ProductExcept(){
         eventType = this.getClass().getSimpleName();
     }
 
-    public String getEventType() {
-        return eventType;
-    }
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
