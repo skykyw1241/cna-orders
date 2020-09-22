@@ -21,7 +21,21 @@ public abstract class AbstractEvent {
     public String getTimestamp() { return timestamp; }
 
     public void publish() throws Exception{
-        messagePublish(this.toJson());
+        publishToMessageChannel(this.getMessageChannel(), this.toJson());
+    }
+
+    public void publishToMessageChannel(MessageChannel output, String contents){
+        if(contents == null){
+            throw new RuntimeException("contents is null");
+        }
+        if(output == null){
+            throw new RuntimeException("Target MessageChannel is null");
+        }
+
+        output.send(MessageBuilder
+                .withPayload(contents)
+                .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
+                .build());
     }
 
     private String toJson() throws Exception{
@@ -37,34 +51,19 @@ public abstract class AbstractEvent {
         return json;
     }
 
-    private void messagePublish(String contents){
-        if(contents == null){
-            throw new RuntimeException("contents is null");
-        }
-        MessageChannel output = getMessageChannel();
-        if(output == null){
-            throw new RuntimeException("Target MessageChannel is null");
-        }
-
-        output.send(MessageBuilder
-                .withPayload(contents)
-                .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
-                .build());
-    }
-
     private MessageChannel getMessageChannel(){
         MessageChannel output = null;
         this.eventType = this.getClass().getSimpleName();
         SimpleDateFormat defaultSimpleDateFormat = new SimpleDateFormat("YYYYMMddHHmmss");
         this.timestamp = defaultSimpleDateFormat.format(new Date());
 
-        KafkaProcessor processor = (KafkaProcessor)OrderApplication.getBeanForProcessor();
+        KafkaProcessor processor = (KafkaProcessor) OrderApplication.getBeanForProcessor();
         Class cls = processor.getClass();
         Method[] methods = cls.getDeclaredMethods();
         try{
             Method method = cls.getMethod("outbound"+this.getClass().getSimpleName());
             output = (MessageChannel) method.invoke(processor);
-        }catch(Exception e){
+        }catch(Exception e) {
             e.printStackTrace();
             output = null;
         }

@@ -10,8 +10,8 @@ public interface KafkaProcessor extends Processor {
     String productChanged_INPUT="productChanged-in";
     String productChanged_OUTPUT="productChanged-out";
 
-    String productExcept_INPUT="productExcept-in";
-    String productExcept_OUTPUT="productExcept-out";
+    String productExcept_INPUT="productChanged-in";
+    String productExcept_OUTPUT="productChanged-out";
 
     String orderCreated_INPUT="orderCreated-in";
     String orderCreated_OUTPUT="orderCreated-in";

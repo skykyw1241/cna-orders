@@ -21,13 +21,13 @@ public class PolicyHandler {
     }
 
     @StreamListener(KafkaProcessor.productExcept_INPUT)
-    public void onEventByProductExcept(@Payload ProductExcept outOfStock){
+    public void onEventByProductExcept(@Payload ProductExcept productExcept){
         System.out.println("onEventByProductExcept");
-        System.out.println(outOfStock.getEventType());
+        System.out.println(productExcept.getEventType());
         //  if문으로 주문생성일때만 작업 진행
-        if("OutOfStock".equals(outOfStock.getEventType()) ){
-            System.out.println("orderId="+outOfStock.getOrderId());
-            System.out.println("productId="+outOfStock.getProductId());
+        if("ProductExcept".equals(productExcept.getEventType()) ){
+            System.out.println("orderId="+productExcept.getOrderId());
+            System.out.println("productId="+productExcept.getProductId());
         }
     }
 

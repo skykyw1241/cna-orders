@@ -27,9 +27,7 @@ public class Order {
     public void onPostPersist(){
         OrderCreated orderCreated = new OrderCreated();
         orderCreated.setProductId(this.getProductId());
-        orderCreated.setProductName(this.getProductName());
         orderCreated.setQty(this.qty);
-        orderCreated.setPrice(this.price);
         orderCreated.setId(this.id);
 
         try{
